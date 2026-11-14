@@ -1,1 +1,13 @@
+
 @import "tailwindcss";
+
+@layer components {
+    .box {
+        @apply w-24 h-24 sm:w-28 sm:h-28;
+        @apply bg-[#ffffc7] rounded-xl;
+        @apply text-5xl font-normal text-[#b0413e];
+        @apply shadow-lg;
+        @apply hover:bg-yellow-100 transition;
+        @apply disabled:opacity-100;
+    }
+}

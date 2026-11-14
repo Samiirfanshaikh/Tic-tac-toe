@@ -1,10 +1,9 @@
 let boxes = document.querySelectorAll(".box");
 let resetBtn = document.querySelector("#reset-btn");
-let newGameBtn = document.querySelector("#new-game-btn");
-let msgContainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
 let turnO = true;
 let count = 0;
+// Winning combinations
 const winPatterns = [
     [0, 1, 2],
     [0, 3, 6],
@@ -15,13 +14,7 @@ const winPatterns = [
     [3, 4, 5],
     [6, 7, 8],
 ];
-const resetGame = () => {
-    turnO = true;
-    count = 0;
-    enableBoxes();
-    msg.innerText = "";
-    msgContainer.classList.add("hidden");
-};
+// Box click event
 boxes.forEach((box) => {
     box.addEventListener("click", () => {
         if (turnO) {
@@ -34,32 +27,27 @@ boxes.forEach((box) => {
         box.disabled = true;
         count++;
         let isWinner = checkWinner();
+        // Draw condition
         if (count === 9 && !isWinner) {
-            gameDraw();
+            msg.innerText = "Game was a Draw!";
+            disableBoxes();
         }
     });
 });
-const gameDraw = () => {
-    msg.innerText = "Game was a Draw!";
-    msgContainer.classList.remove("hidden");
-    disableBoxes();
-};
+// Disable all boxes
 const disableBoxes = () => {
     for (let box of boxes) {
         box.disabled = true;
     }
 };
+// Enable all boxes
 const enableBoxes = () => {
     for (let box of boxes) {
         box.disabled = false;
         box.innerText = "";
     }
 };
-const showWinner = (winner) => {
-    msg.innerText = `Congratulations! Winner is ${winner}`;
-    msgContainer.classList.remove("hidden");
-    disableBoxes();
-};
+// Check winner
 const checkWinner = () => {
     for (let pattern of winPatterns) {
         let pos1Val = boxes[pattern[0]].innerText;
@@ -74,12 +62,20 @@ const checkWinner = () => {
                 pos1Val === pos2Val &&
                 pos2Val === pos3Val
             ) {
-                showWinner(pos1Val);
+                msg.innerText = `Winner: ${pos1Val}`;
+                disableBoxes();
                 return true;
             }
         }
     }
     return false;
 };
-newGameBtn.addEventListener("click", resetGame);
+// Reset game
+const resetGame = () => {
+    turnO = true;
+    count = 0;
+    msg.innerText = "";
+    enableBoxes();
+};
+// Reset button event
 resetBtn.addEventListener("click", resetGame);
